@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
 
+const monitorRoutes = require('./routes/monitorRoutes');
+
 app.use(express.json());
+app.use('/monitors', monitorRoutes);
 
 const PORT = 3000;
-
-app.get('/', (req, res) => {
-  res.send('Pulse Check API is running');
-});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
