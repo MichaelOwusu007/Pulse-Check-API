@@ -1,18 +1,22 @@
 {
   "name": "pulse-check-api",
   "version": "1.0.0",
-  "description": "This challenge is designed to test your ability to bridge Computer Science fundamentals with Modern Backend Engineering.",
-  "main": "index.js",
+  "description": "Dead man's switch API for monitoring remote devices with heartbeat timers.",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
-  "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MichaelOwusu007/Pulse-Check-API.git"
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "monitoring",
+    "heartbeat",
+    "watchdog"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",

@@ -1,12 +1,17 @@
 const express = require('express');
-const app = express();
 
 const monitorRoutes = require('./routes/monitorRoutes');
 
-app.use(express.json());
-app.use('/monitors', monitorRoutes);
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const PORT = 3000;
+app.use(express.json());
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
+app.use('/monitors', monitorRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
