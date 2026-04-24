@@ -2,6 +2,9 @@
 
 Pulse-Check-API is a Dead Man's Switch service for monitoring remote devices that must report in on time. A device registers a monitor with a timeout in seconds, sends heartbeats to stay alive, and is marked `down` if the countdown reaches zero before the next heartbeat arrives.
 
+This project is built with Node.js and Express, using in-memory state management for active monitors.
+
+
 ## Architecture Diagram
 
 ```mermaid
@@ -72,6 +75,16 @@ curl http://localhost:3000/health
 - Internally, JavaScript timers still use `setTimeout`, but the service converts the provided seconds into a real countdown duration. A value of `60` means a full 60-second wait before the alert fires.
 - Monitor state is stored in memory using a `Map`, which keeps the implementation simple for this challenge.
 
+
+## Endpoints Summary
+
+- `GET /health`
+- `POST /monitors`
+- `POST /monitors/:id/heartbeat`
+- `POST /monitors/:id/pause`
+- `GET /monitors/:id`
+
+
 ## API Documentation
 
 ### 1. Create monitor
@@ -136,6 +149,7 @@ Success response:
   }
 }
 ```
+Heartbeat resets a monitor only while it is still active or paused; once a monitor has expired and entered the `down` state, it must be re-registered rather than revived by heartbeat.
 
 Behavior:
 
@@ -173,6 +187,9 @@ Behavior:
 - A later heartbeat automatically unpauses the monitor and restarts the full countdown.
 
 ### 4. Get monitor status
+
+The additional feature I implemented is `GET /monitors/:id`, which gives live visibility into monitor health and time remaining.
+
 
 `GET /monitors/:id`
 
@@ -234,3 +251,5 @@ src/
 
 - Monitor data is kept in memory, so restarting the server clears all registered monitors.
 - This is acceptable for the coding challenge, but production systems would persist monitor state in a database or cache.
+All timestamps are returned in ISO 8601 format in UTC (for example, `2026-04-24T10:01:00.000Z`).
+
